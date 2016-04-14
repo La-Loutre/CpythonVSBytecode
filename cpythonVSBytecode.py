@@ -3,9 +3,14 @@ from ctypes.util import find_library
 import os
 import time
 import math
+import sys
 
-# Save local path in SRC (taking care of utf-8 possibility)
-SRC = os.path.dirname(os.path.abspath(__file__)).decode("utf-8")
+# Save local path in SRC (taking care of utf-8 possibility for python2.7)
+if sys.version_info < (3,0):
+    SRC = os.path.dirname(os.path.abspath(__file__)).decode("utf-8")
+else:
+    SRC = os.path.dirname(os.path.abspath(__file__))
+
 # Size of our list and array
 N = 100000
 
@@ -66,13 +71,13 @@ assert(my_int_list[len(my_int_list)-1] == (len(my_int_list)-1)+2)
 binary_time = end_binary_code-start_binary_code
 cpython_time = end_cpython_code-start_cpython_code
 latency_time = end_latency-start_latency - binary_time
-print "Binary time : "+str(binary_time)
-print "Latency time (settings up binary): "+str(latency_time)
-print "CPython time : "+str(cpython_time)
+print("Binary time : "+str(binary_time))
+print("Latency time (settings up binary): "+str(latency_time))
+print("CPython time : "+str(cpython_time))
 
 if (binary_time + latency_time) < cpython_time:
-    print "Speed increase with binary+latency : x"+str(cpython_time/(binary_time+latency_time))
+    print("Speed increase with binary+latency : x"+str(cpython_time/(binary_time+latency_time)))
 elif (binary_time > cpython_time):
-    print "Binary never worth, cpython faster: x"+str(binary_time/cpython_time)
+    print("Binary never worth, cpython faster: x"+str(binary_time/cpython_time))
 else:
-    print "Loop for being worth the price : "+str(math.ceil(latency_time/(cpython_time-binary_time)))
+    print("Loop for being worth the price : "+str(math.ceil(latency_time/(cpython_time-binary_time))))
