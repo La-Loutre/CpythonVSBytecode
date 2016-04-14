@@ -4,4 +4,4 @@
 
 $ make
 
-$ python2.7 cpythonVSBytecode.py
+$ python3 test_use_binary.py
